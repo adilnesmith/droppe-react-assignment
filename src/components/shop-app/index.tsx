@@ -5,9 +5,7 @@ import { FaTimes } from "react-icons/fa";
 import Button from "components/ui/Button";
 import ProductList from "components/product-list";
 import Form from "components/ui/Form";
-import logo from "images/droppe-logo.png";
-import img1 from "images/img1.png";
-import img2 from "images/img2.png";
+import Header from "components/header";
 import styles from "./shopApp.module.scss";
 
 export class ShopApp extends React.Component<{}, { products: any[]; isOpen: boolean; isShowingMessage: boolean; message: string; numFavorites: number; prodCount: number }> {
@@ -109,23 +107,8 @@ export class ShopApp extends React.Component<{}, { products: any[]; isOpen: bool
   render() {
     const { products, isOpen } = this.state;
     return (
-      <React.Fragment>
-        <div className={styles.header}>
-          <div className={['container', styles.headerImageWrapper].join(' ')}>
-            <img src={logo} className={styles.headerImage} />
-          </div>
-        </div>
-
-        <>
-          <span
-            className={['container', styles.main].join(' ')}
-            style={{ margin: '50px inherit', display: 'flex', justifyContent: 'space-evenly' }}
-          >
-            <img src={img1} style={{ maxHeight: "15em", display: 'block' }} />
-            <img src={img2} style={{ maxHeight: "15rem", display: 'block' }} />
-          </span>
-        </>
-
+      <>
+        <Header />
         <div className={['container', styles.main].join(' ')} style={{ paddingTop: 0 }}>
           <div className={styles.buttonWrapper}>
             <span role="button">
@@ -173,7 +156,7 @@ export class ShopApp extends React.Component<{}, { products: any[]; isOpen: bool
             </div>
           </Modal>
         </>
-      </React.Fragment>
+      </>
     );
   }
 }

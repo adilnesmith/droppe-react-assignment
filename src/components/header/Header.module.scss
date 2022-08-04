@@ -1,0 +1,22 @@
+.wrapper {
+  background: #ffffff;
+  &__image-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    &__image{
+      height: 60px;
+    }
+  }
+ 
+}
+.section {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 32px 0;
+  &__image{
+    max-height: 15em;
+    display: block;
+  }
+}
