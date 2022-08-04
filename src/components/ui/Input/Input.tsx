@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { InputProps } from 'lib/types/common'
-const Input: FC<InputProps> = ({ placeholder, defaultValue, className, ref }) => {
+const Input: FC<InputProps> = ({ placeholder, defaultValue, className, inputRef }) => {
     return (
         <input
-            ref={ref}
+            ref={inputRef as any}
             placeholder={placeholder}
             defaultValue={defaultValue}
             className={className}

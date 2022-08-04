@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useRef } from "react";
 import Button from "../Button";
 import styles from "./Form.module.scss";
 import Label from 'components/ui/Label'
@@ -6,14 +6,12 @@ import Input from 'components/ui/Input'
 import { FormProps } from 'lib/types/common'
 
 export const Form: React.FC<FormProps> = (props) => {
-  let formRef = React.useRef<HTMLFormElement>(null);
-  let titleRef = React.useRef<HTMLInputElement>(null);
-  let priceRef = React.useRef<HTMLInputElement>(null);
+  let formRef = useRef<HTMLFormElement>(null);
+  let titleRef = useRef<HTMLInputElement>(null);
+  let priceRef = useRef<HTMLInputElement>(null);
   let descriptionRef = React.useRef<HTMLTextAreaElement>(null);
 
-
   const handleSubmit = (e: any) => {
-    console.log(titleRef, "aa")
     e.preventDefault();
 
     if (!titleRef.current?.value) {
@@ -41,8 +39,8 @@ export const Form: React.FC<FormProps> = (props) => {
     <form className={styles.form} onSubmit={(event) => handleSubmit(event)} ref={formRef}>
       <Label className={styles.label} children={'Product title: *'}></Label>
 
-      <input
-        ref={titleRef}
+      <Input
+        inputRef={titleRef}
         placeholder="Title..."
         defaultValue=""
         className={styles.input}
@@ -50,8 +48,8 @@ export const Form: React.FC<FormProps> = (props) => {
 
       <Label className={styles.label} children={'Product details: *'}></Label>
 
-      <input
-        ref={priceRef}
+      <Input
+        inputRef={priceRef}
         placeholder="Price..."
         defaultValue=""
         className={styles.input}

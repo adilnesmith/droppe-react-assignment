@@ -4,7 +4,7 @@ export interface ButtonProps {
 
 }
 export interface InputProps {
-    ref: any
+    inputRef: any;
     placeholder: string
     defaultValue: string
     className: string
