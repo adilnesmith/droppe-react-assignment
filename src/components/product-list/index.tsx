@@ -11,7 +11,7 @@ const Posts: FC<PostsProps> = ({ onFav, products }) => {
     );
   }
   return (
-    <div>{lodash.reverse(productsarr)}</div>
+    <section>{lodash.reverse(productsarr)}</section>
   )
 }
 export default Posts
