@@ -8,12 +8,9 @@ import { Form } from "components/ui/Form/Form";
 import logo from "images/droppe-logo.png";
 import img1 from "images/img1.png";
 import img2 from "images/img2.png";
-import styles from "./shopApp.module.css";
+import styles from "./shopApp.module.scss";
 
-export class ShopApp extends React.Component<
-  {},
-  { products: any[]; isOpen: boolean; isShowingMessage: boolean; message: string; numFavorites: number; prodCount: number }
-> {
+export class ShopApp extends React.Component<{}, { products: any[]; isOpen: boolean; isShowingMessage: boolean; message: string; numFavorites: number; prodCount: number }> {
   constructor(props: any) {
     super(props);
 
