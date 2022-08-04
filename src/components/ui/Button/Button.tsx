@@ -1,13 +1,21 @@
-import * as React from "react";
+import React, {
+  ButtonHTMLAttributes,
+} from 'react'
 import styles from "./Button.module.scss";
 
-interface props {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: any;
   onClick?: () => void;
+  className?: string
+  active?: boolean
+  type?: 'submit' | 'reset' | 'button'
+  width?: string | number
+  loading?: boolean
+  disabled?: boolean
 }
 
-export const Button: React.FC<props> = ({ children, onClick }) => (
-  <button className={styles.button} onClick={onClick}>
+export const Button: React.FC<ButtonProps> = ({ children, onClick }) => (
+  <button className={styles.cta} onClick={onClick}>
     {children}
   </button>
 );
