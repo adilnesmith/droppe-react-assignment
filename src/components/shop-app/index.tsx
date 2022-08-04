@@ -3,7 +3,7 @@ import lodash from 'lodash';
 import Modal from "react-modal";
 import { FaTimes } from "react-icons/fa";
 import Button from "components/ui/Button";
-import ProductList from "components/product-list/ProductList";
+import ProductList from "components/product-list";
 import Form from "components/ui/Form";
 import logo from "images/droppe-logo.png";
 import img1 from "images/img1.png";

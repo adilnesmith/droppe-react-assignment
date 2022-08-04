@@ -29,3 +29,23 @@ export type FormProps = {
         }
     ) => void;
 }
+export type ProductProps = {
+    index: number;
+    product: {
+        title: string;
+        description: string;
+        price: number;
+        isFavorite: boolean;
+        rating: {
+            rate: number;
+            count: number
+        }
+    }
+    onFav: (title: string) => void;
+}
+
+
+export type PostsProps = {
+    products: any;
+    onFav: (title: string) => void;
+}
