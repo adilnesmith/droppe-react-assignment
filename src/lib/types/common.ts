@@ -9,6 +9,12 @@ export interface InputProps {
     defaultValue: string
     className: string
 }
+export interface TextAreaProps {
+    inputRef: any;
+    placeholder: string
+    defaultValue: string
+    className: string
+}
 export interface LableProps {
     children: string;
     className: string

@@ -3,6 +3,7 @@ import Button from "../Button";
 import styles from "./Form.module.scss";
 import Label from 'components/ui/Label'
 import Input from 'components/ui/Input'
+import TextArea from 'components/ui/TextArea'
 import { FormProps } from 'lib/types/common'
 
 export const Form: React.FC<FormProps> = (props) => {
@@ -55,8 +56,8 @@ export const Form: React.FC<FormProps> = (props) => {
         className={styles.input}
       />
 
-      <textarea
-        ref={descriptionRef}
+      <TextArea
+        inputRef={descriptionRef}
         placeholder="Start typing product description here..."
         defaultValue=""
         className={styles.textarea}
