@@ -11,3 +11,4 @@ export const Button: React.FC<props> = ({ children, onClick }) => (
     {children}
   </button>
 );
+export default Button

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button } from "../Button/Button";
+import Button from "../Button";
 import styles from "./Form.module.scss";
 
 type IFormProps = {
@@ -67,3 +67,5 @@ export const Form: React.FC<IFormProps> = (props) => {
     </form>
   );
 };
+
+export default Form
