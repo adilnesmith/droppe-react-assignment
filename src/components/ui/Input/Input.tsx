@@ -1,8 +1,13 @@
 import React, { FC } from 'react';
-import styles from './Input.module.scss';
-const Input: FC<{}> = () => {
+import { InputProps } from 'lib/types/common'
+const Input: FC<InputProps> = ({ placeholder, defaultValue, className, ref }) => {
     return (
-        <></>
+        <input
+            ref={ref}
+            placeholder={placeholder}
+            defaultValue={defaultValue}
+            className={className}
+        />
     )
 }
 export default Input;

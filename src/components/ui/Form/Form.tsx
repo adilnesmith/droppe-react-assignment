@@ -1,18 +1,19 @@
 import * as React from "react";
 import Button from "../Button";
 import styles from "./Form.module.scss";
+import Label from 'components/ui/Label'
+import Input from 'components/ui/Input'
+import { FormProps } from 'lib/types/common'
 
-type IFormProps = {
-  "on-submit": (payload: { title: string; description: string; price: string }) => void;
-}
-
-export const Form: React.FC<IFormProps> = (props) => {
+export const Form: React.FC<FormProps> = (props) => {
   let formRef = React.useRef<HTMLFormElement>(null);
   let titleRef = React.useRef<HTMLInputElement>(null);
   let priceRef = React.useRef<HTMLInputElement>(null);
   let descriptionRef = React.useRef<HTMLTextAreaElement>(null);
 
+
   const handleSubmit = (e: any) => {
+    console.log(titleRef, "aa")
     e.preventDefault();
 
     if (!titleRef.current?.value) {
@@ -38,7 +39,7 @@ export const Form: React.FC<IFormProps> = (props) => {
 
   return (
     <form className={styles.form} onSubmit={(event) => handleSubmit(event)} ref={formRef}>
-      <span className={styles.label}>Product title: *</span>
+      <Label className={styles.label} children={'Product title: *'}></Label>
 
       <input
         ref={titleRef}
@@ -47,7 +48,7 @@ export const Form: React.FC<IFormProps> = (props) => {
         className={styles.input}
       />
 
-      <span className={styles.label}>Product details: *</span>
+      <Label className={styles.label} children={'Product details: *'}></Label>
 
       <input
         ref={priceRef}
@@ -63,7 +64,7 @@ export const Form: React.FC<IFormProps> = (props) => {
         className={styles.textarea}
       />
 
-      <Button>Add a product</Button>
+      <Button children={'Add a product'}></Button>
     </form>
   );
 };
