@@ -17,8 +17,6 @@ const ShopApp: FC<{}> = () => {
   const [message, setMessage] = useState('');
   const [numFavorites, setNumFavorites] = useState(0);
   const [prodCount, setProdCount] = useState(0);
-
-
   const favClick = (title: string) => {
     const prods = products;
     const idx = lodash.findIndex(prods, { title: title })
