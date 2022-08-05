@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { FC, useEffect, useState } from 'react';
 import lodash from 'lodash';
 import Modal from "react-modal";
 import { FaTimes } from "react-icons/fa";
@@ -7,46 +7,21 @@ import ProductList from "components/product-list";
 import Form from "components/ui/Form";
 import Header from "components/header";
 import styles from "./shopApp.module.scss";
+import { ShopAppProps } from 'lib/types/common'
+const ShopApp: FC<{}> = () => {
+  const [products, setProducts] = useState<any[]>([]);
+  const [isOpen, setOpen] = useState(false);
+  const [isShowingMessage, setShowingMessage] = useState(false);
+  const [message, setMessage] = useState('');
+  const [numFavorites, setNumFavorites] = useState(0);
+  const [prodCount, setProdCount] = useState(0);
 
-export class ShopApp extends React.Component<{}, { products: any[]; isOpen: boolean; isShowingMessage: boolean; message: string; numFavorites: number; prodCount: number }> {
-  constructor(props: any) {
-    super(props);
 
-    this.favClick = this.favClick.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-
-    this.state = { products: [], isOpen: false, isShowingMessage: false, message: '', numFavorites: 0, prodCount: 0 };
-
-    fetch('https://fakestoreapi.com/products').then((response) => {
-      let jsonResponse = response.json();
-
-      jsonResponse.then((rawData) => {
-        let data = [];
-
-        for (let i = 0; i < rawData.length; i++) {
-          let updatedProd = rawData[i];
-          data.push(updatedProd);
-        }
-        this.setState({
-          products: data,
-        });
-        this.setState({
-          prodCount: data.length
-        })
-      });
-    });
-  }
-
-  componentDidMount() {
-    document.title = "Droppe refactor app"
-  }
-
-  favClick(title: string) {
-    const prods = this.state.products;
+  const favClick = (title: string) => {
+    const prods = products;
     const idx = lodash.findIndex(prods, { title: title })
-    let currentFavs = this.state.numFavorites
+    let currentFavs = numFavorites
     let totalFavs: any;
-
     if (prods[idx].isFavorite) {
       prods[idx].isFavorite = false;
       totalFavs = --currentFavs
@@ -54,31 +29,35 @@ export class ShopApp extends React.Component<{}, { products: any[]; isOpen: bool
       totalFavs = ++currentFavs
       prods[idx].isFavorite = true;
     }
-
-    this.setState(() => ({ products: prods, numFavorites: totalFavs }));
-  }
-
-  onSubmit(payload: { title: string; description: string, price: string }) {
-    const updated = lodash.clone(this.state.products);
+    setProducts(prods)
+    setNumFavorites(totalFavs)
+  };
+  useEffect(() => {
+    fetch('https://fakestoreapi.com/products').then((response) => {
+      let jsonResponse = response.json();
+      jsonResponse.then((rawData) => {
+        let data = [];
+        for (let i = 0; i < rawData.length; i++) {
+          let updatedProd = rawData[i];
+          data.push(updatedProd);
+        }
+        setProducts(data);
+        setProdCount(data.length)
+      });
+    });
+  }, [])
+  const onSubmit = (payload: { title: string; description: string, price: string }) => {
+    const updated: any[] = lodash.clone(products);
     updated.push({
       title: payload.title,
       description: payload.description,
       price: payload.price
     });
-
-    this.setState({
-      products: updated,
-      prodCount: lodash.size(this.state.products) + 1
-    });
-
-    this.setState({
-      isOpen: false,
-    });
-
-    this.setState({
-      isShowingMessage: true,
-      message: 'Adding product...'
-    })
+    setProducts(updated)
+    setProdCount(lodash.size(products) + 1)
+    setOpen(false)
+    setShowingMessage(true)
+    setMessage('Adding product...')
 
     // **this POST request doesn't actually post anything to any database**
     fetch('https://fakestoreapi.com/products', {
@@ -90,73 +69,53 @@ export class ShopApp extends React.Component<{}, { products: any[]; isOpen: bool
           description: payload.description,
         }
       )
-    })
-      .then(res => res.json())
+    }).then(res => res.json())
       .then(json => {
-        (function (t) {
-          setTimeout(() => {
-            t.setState({
-              isShowingMessage: false,
-              message: ''
-            })
-          }, 2000)
-        })(this);
+        setTimeout(() => {
+          setShowingMessage(false)
+          setMessage("")
+        }, 2000);
       })
   }
-
-  render() {
-    const { products, isOpen } = this.state;
-    return (
-      <>
-        <Header />
-        <div className={['container', styles.main].join(' ')} style={{ paddingTop: 0 }}>
-          <div className={styles.buttonWrapper}>
-            <span role="button">
-              <Button
-                onClick={function (this: any) {
-                  this.setState({
-                    isOpen: true,
-                  });
-                }.bind(this)}
-              >Send product proposal</Button>
-            </span>
-            {this.state.isShowingMessage && <div className={styles.messageContainer}>
-              <i>{this.state.message}</i>
-            </div>}
-          </div>
-
-          <div className={styles.statsContainer}>
-            <span>Total products: {this.state.prodCount}</span>
-            {' - '}
-            <span>Number of favorites: {this.state.numFavorites}</span>
-          </div>
-
-          {products && !!products.length ? <ProductList products={products} onFav={this.favClick} /> : <div></div>}
+  return (
+    <>
+      <Header />
+      <div className={['container', styles.main].join(' ')} style={{ paddingTop: 0 }}>
+        <div className={styles.buttonWrapper}>
+          <span role="button">
+            <Button
+              onClick={() => { setOpen(true) }}
+              children={'Send product proposal'}
+            ></Button>
+          </span>
+          {isShowingMessage && <div className={styles.messageContainer}>
+            <i>{message}</i>
+          </div>}
         </div>
 
-        <>
-          <Modal
-            isOpen={isOpen}
-            className={styles.reactModalContent}
-            overlayClassName={styles.reactModalOverlay}
-          >
-            <div className={styles.modalContentHelper}>
-              <div
-                className={styles.modalClose}
-                onClick={function (this: any) {
-                  this.setState({
-                    isOpen: false,
-                  });
-                }.bind(this)}
-              ><FaTimes /></div>
-
-              <Form
-                on-submit={this.onSubmit}
-              />
-            </div>
-          </Modal>
-        </>
-      </>
-    );
-  }
+        <div className={styles.statsContainer}>
+          <span>Total products: {prodCount}</span>
+          {' - '}
+          <span>Number of favorites: {numFavorites}</span>
+        </div>
+        {products && !!products.length ? <ProductList products={products} onFav={() => favClick} /> : <div></div>}
+      </div>
+      <Modal
+        isOpen={isOpen}
+        className={styles.reactModalContent}
+        overlayClassName={styles.reactModalOverlay}
+      >
+        <div className={styles.modalContentHelper}>
+          <div
+            className={styles.modalClose}
+            onClick={() => { setOpen(false) }}
+          ><FaTimes /></div>
+          <Form
+            on-submit={() => onSubmit}
+          />
+        </div>
+      </Modal>
+    </>
+  )
 }
+export default ShopApp

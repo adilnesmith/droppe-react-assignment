@@ -1,51 +1,58 @@
 export interface ButtonProps {
-    children: any;
-    onClick?: () => void;
+    children: any
+    onClick?: () => void
 
 }
 export interface InputProps {
-    inputRef: any;
+    inputRef: any
     placeholder: string
     defaultValue: string
     className: string
 }
 export interface TextAreaProps {
-    inputRef: any;
+    inputRef: any
     placeholder: string
     defaultValue: string
     className: string
 }
 export interface LableProps {
-    children: string;
+    children: string
     className: string
 
 }
 export type FormProps = {
     "on-submit": (
         payload: {
-            title: string;
-            description: string;
+            title: string
+            description: string
             price: string
         }
-    ) => void;
+    ) => void
 }
 export type ProductProps = {
-    index: number;
+    index: number
     product: {
-        title: string;
-        description: string;
-        price: number;
-        isFavorite: boolean;
+        title: string
+        description: string
+        price: number
+        isFavorite: boolean
         rating: {
-            rate: number;
+            rate: number
             count: number
         }
     }
-    onFav: (title: string) => void;
+    onFav: (title: string) => void
 }
 
-
 export type PostsProps = {
-    products: any;
-    onFav: (title: string) => void;
+    products: any
+    onFav: (title: string) => void
+}
+export type ShopAppProps = {
+    products: any[]
+    isOpen: boolean
+    isShowingMessage: boolean
+    message: string
+    numFavorites: number
+    prodCount: number
 }
