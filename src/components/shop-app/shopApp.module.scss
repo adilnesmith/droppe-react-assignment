@@ -1,21 +1,19 @@
 
-
-
-
-.buttonWrapper {
-  margin-bottom: 24px;
+.wrapper {
+  padding: 32px 0;
+  padding-top: 0px;
+  &__button{
+    margin-bottom: 24px;
+  }
+  &__message {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
+  &__stats {
+    margin-bottom: 24px;
+  }
 }
-
-.messageContainer {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-}
-
-.statsContainer {
-  margin-bottom: 24px;
-}
-
 .reactModalContent {
   font-family: "Open Sans";
   position: absolute;

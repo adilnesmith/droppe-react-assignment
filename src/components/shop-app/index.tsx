@@ -1,5 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import lodash from 'lodash';
+import { API_DOMAIN } from '../../general-config'
+import ENDPOINTS from "lib/api/endpoints";
 import Modal from "react-modal";
 import { FaTimes } from "react-icons/fa";
 import Button from "components/ui/Button";
@@ -33,7 +35,7 @@ const ShopApp: FC<{}> = () => {
     setNumFavorites(totalFavs)
   };
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products').then((response) => {
+    fetch(API_DOMAIN + ENDPOINTS.PRODUCTS.GET).then((response) => {
       let jsonResponse = response.json();
       jsonResponse.then((rawData) => {
         let data = [];
@@ -60,7 +62,7 @@ const ShopApp: FC<{}> = () => {
     setMessage('Adding product...')
 
     // **this POST request doesn't actually post anything to any database**
-    fetch('https://fakestoreapi.com/products', {
+    fetch(API_DOMAIN + ENDPOINTS.PRODUCTS.POST, {
       method: "POST",
       body: JSON.stringify(
         {
@@ -80,26 +82,22 @@ const ShopApp: FC<{}> = () => {
   return (
     <>
       <Header />
-      <div className={['container', styles.main].join(' ')} style={{ paddingTop: 0 }}>
-        <div className={styles.buttonWrapper}>
-          <span role="button">
-            <Button
-              onClick={() => { setOpen(true) }}
-              children={'Send product proposal'}
-            ></Button>
-          </span>
-          {isShowingMessage && <div className={styles.messageContainer}>
-            <i>{message}</i>
-          </div>}
+      <section className={['container', styles.wrapper].join(' ')}>
+        <div className={styles.wrapper__button}>
+          <Button
+            onClick={() => { setOpen(true) }}
+            children={'Send product proposal'}
+          ></Button>
+          {isShowingMessage &&
+            <div className={styles.wrapper__message}>
+              <i>{message}</i>
+            </div>}
         </div>
-
-        <div className={styles.statsContainer}>
-          <span>Total products: {prodCount}</span>
-          {' - '}
-          <span>Number of favorites: {numFavorites}</span>
+        <div className={styles.wrapper__stats}>
+          <span> {`Total products: ${prodCount} - Number of favorites: ${numFavorites}`}</span>
         </div>
-        {products && !!products.length ? <ProductList products={products} onFav={() => favClick} /> : <div></div>}
-      </div>
+        {products?.length && <ProductList products={products} onFav={() => favClick} />}
+      </section>
       <Modal
         isOpen={isOpen}
         className={styles.reactModalContent}
