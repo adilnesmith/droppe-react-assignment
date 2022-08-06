@@ -99,11 +99,11 @@ const ShopApp: FC<{}> = () => {
       <Modal
         isOpen={isOpen}
         className={styles.reactModalContent}
-        overlayClassName={styles.reactModalOverlay}
+        overlayClassName={styles.reactModalContent__overlay}
       >
-        <div className={styles.modalContentHelper}>
+        <div className={styles.contentHelper}>
           <div
-            className={styles.modalClose}
+            className={styles.contentHelper__close}
             onClick={() => { setOpen(false) }}
           ><FaTimes /></div>
           <Form
