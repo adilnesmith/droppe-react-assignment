@@ -11,71 +11,42 @@ import Header from "components/header";
 import styles from "./shopApp.module.scss";
 const ShopApp: FC<{}> = () => {
   const [products, setProducts] = useState<any[]>([]);
-  const [isOpen, setOpen] = useState(false);
-  const [isShowingMessage, setShowingMessage] = useState(false);
-  const [message, setMessage] = useState('');
-  const [numFavorites, setNumFavorites] = useState(0);
-  const [prodCount, setProdCount] = useState(0);
+  const [isOpen, setOpen] = useState<boolean>(false);
+  const [isShowingMessage, setShowingMessage] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
+  const [favoritesCount, setFavoritesCount] = useState<number>(0);
+  const [productsCount, setProductsCount] = useState<number>(0);
   useEffect(() => {
-    document.title = "Droppe refactor app"
-    fetch(API_DOMAIN + ENDPOINTS.PRODUCTS.GET).then((response) => {
-      let jsonResponse = response.json();
-      jsonResponse.then((rawData) => {
-        let data = [];
-        for (let i = 0; i < rawData.length; i++) {
-          let updatedProd = rawData[i];
-          data.push(updatedProd);
-        }
-        setProducts(data);
-        setProdCount(data.length)
-      });
+    fetch(API_DOMAIN + ENDPOINTS.PRODUCTS.GET).then((response) => { return response.json() }).then((_products) => {
+      setProducts(_products);
+      setProductsCount(_products?.length)
     });
   }, [])
   const favClick = (title: string) => {
-    const prods = products;
-    const idx = lodash.findIndex(prods, { title: title })
-    let currentFavs = numFavorites
-    let totalFavs: any;
-    if (prods[idx].isFavorite) {
-      prods[idx].isFavorite = false;
-      totalFavs = --currentFavs
+    const _products = products;
+    const index = lodash.findIndex(_products, { title: title })
+    let currentFavoritesCount = favoritesCount
+    let _favoritesCount: any;
+    if (_products[index].isFavorite) {
+      _products[index].isFavorite = false;
+      _favoritesCount = --currentFavoritesCount
     } else {
-      totalFavs = ++currentFavs
-      prods[idx].isFavorite = true;
+      _favoritesCount = ++currentFavoritesCount
+      _products[index].isFavorite = true;
     }
-    setProducts(prods)
-    setNumFavorites(totalFavs)
+    setProducts(_products)
+    setFavoritesCount(_favoritesCount)
   };
   const onSubmit = (payload: { title: string; description: string, price: string }) => {
-    const updated: any[] = lodash.clone(products);
-    updated.push({
-      title: payload.title,
-      description: payload.description,
-      price: payload.price
-    });
-    setProducts(updated)
-    setProdCount(lodash.size(products) + 1)
+    setProducts(products => [...products, payload]);
+    setProductsCount(productsCount + 1)
     setOpen(false)
     setShowingMessage(true)
     setMessage('Adding product...')
-
-    // **this POST request doesn't actually post anything to any database**
-    fetch(API_DOMAIN + ENDPOINTS.PRODUCTS.POST, {
-      method: "POST",
-      body: JSON.stringify(
-        {
-          title: payload.title,
-          price: payload.price,
-          description: payload.description,
-        }
-      )
-    }).then(res => res.json())
-      .then(json => {
-        setTimeout(() => {
-          setShowingMessage(false)
-          setMessage("")
-        }, 2000);
-      })
+    setTimeout(() => {
+      setShowingMessage(false)
+      setMessage("")
+    }, 2000);
   }
   return (
     <>
@@ -92,7 +63,7 @@ const ShopApp: FC<{}> = () => {
             </div>}
         </div>
         <div className={styles.wrapper__stats}>
-          <span> {`Total products: ${prodCount} - Number of favorites: ${numFavorites}`}</span>
+          <span> {`Total products: ${productsCount} - Number of favorites: ${favoritesCount}`}</span>
         </div>
         {products?.length && <ProductList products={products} onFav={favClick} />}
       </section>
