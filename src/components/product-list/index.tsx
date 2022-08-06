@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import lodash from 'lodash'
 import Product from 'components/product'
-import { PostsProps } from 'lib/types/common'
+import { ProductListProps } from 'lib/types/common'
 
-const Posts: FC<PostsProps> = ({ products, onFav }) => {
+const ProductList: FC<ProductListProps> = ({ products, onFav }) => {
   const productComponent = products?.map((_product: any, _index: number) => {
     return <Product key={_index} index={_index} product={_product} onFav={onFav} />
   })
@@ -11,4 +11,4 @@ const Posts: FC<PostsProps> = ({ products, onFav }) => {
     <section>{lodash.reverse(productComponent)}</section>
   )
 }
-export default Posts
+export default ProductList

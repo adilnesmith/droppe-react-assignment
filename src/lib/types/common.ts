@@ -44,8 +44,8 @@ export type ProductProps = {
     onFav: (title: string) => void
 }
 
-export type PostsProps = {
-    products: any
+export type ProductListProps = {
+    products: Array<Object>
     onFav: (title: string) => void
 }
 export type ShopAppProps = {
