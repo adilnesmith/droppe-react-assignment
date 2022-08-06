@@ -3,6 +3,13 @@ import { render, act, screen, fireEvent } from "@testing-library/react";
 import Form from "./index";
 import { FormProps } from '../../lib/types/common'
 const onSubmit = jest.fn();
+onSubmit.mockReturnValueOnce({
+    payload: {
+        title: "some title",
+        description: "some description",
+        price: "some price"
+    }
+})
 test("Form with mock function", async () => {
     await act(async () => {
         render(
