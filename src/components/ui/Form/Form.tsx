@@ -42,6 +42,7 @@ export const Form: React.FC<FormProps> = (props) => {
     <form className={styles.form} onSubmit={(event) => handleSubmit(event)} ref={formRef}>
       <Label className={styles.form__label} children={'Product title: *'}></Label>
       <Input
+        data-testid="title"
         inputRef={titleRef}
         placeholder="Title..."
         defaultValue=""

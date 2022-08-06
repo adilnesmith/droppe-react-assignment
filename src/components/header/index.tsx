@@ -11,9 +11,7 @@ const Header: FC<{}> = () => {
                     <img src={logo} className={styles['wrapper__image-wrapper__image']} alt="" />
                 </div>
             </div>
-            <section
-                className={['container', styles.section].join(' ')}
-            >
+            <section className={['container', styles.section].join(' ')}>
                 <img className={styles.section__image} src={img1} alt="" />
                 <img className={styles.section__image} src={img2} alt="" />
             </section>

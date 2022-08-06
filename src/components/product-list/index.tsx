@@ -3,7 +3,7 @@ import lodash from 'lodash'
 import Product from 'components/product'
 import { PostsProps } from 'lib/types/common'
 
-const Posts: FC<PostsProps> = ({ onFav, products }) => {
+const Posts: FC<PostsProps> = ({ products, onFav }) => {
   const productComponent = products?.map((_product: any, _index: number) => {
     return <Product key={_index} index={_index} product={_product} onFav={onFav} />
   })
