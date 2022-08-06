@@ -9,7 +9,6 @@ import ProductList from "components/product-list";
 import Form from "components/ui/Form";
 import Header from "components/header";
 import styles from "./shopApp.module.scss";
-import { ShopAppProps } from 'lib/types/common'
 const ShopApp: FC<{}> = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [isOpen, setOpen] = useState(false);
@@ -17,6 +16,21 @@ const ShopApp: FC<{}> = () => {
   const [message, setMessage] = useState('');
   const [numFavorites, setNumFavorites] = useState(0);
   const [prodCount, setProdCount] = useState(0);
+  useEffect(() => {
+    document.title = "Droppe refactor app"
+    fetch(API_DOMAIN + ENDPOINTS.PRODUCTS.GET).then((response) => {
+      let jsonResponse = response.json();
+      jsonResponse.then((rawData) => {
+        let data = [];
+        for (let i = 0; i < rawData.length; i++) {
+          let updatedProd = rawData[i];
+          data.push(updatedProd);
+        }
+        setProducts(data);
+        setProdCount(data.length)
+      });
+    });
+  }, [])
   const favClick = (title: string) => {
     const prods = products;
     const idx = lodash.findIndex(prods, { title: title })
@@ -32,20 +46,6 @@ const ShopApp: FC<{}> = () => {
     setProducts(prods)
     setNumFavorites(totalFavs)
   };
-  useEffect(() => {
-    fetch(API_DOMAIN + ENDPOINTS.PRODUCTS.GET).then((response) => {
-      let jsonResponse = response.json();
-      jsonResponse.then((rawData) => {
-        let data = [];
-        for (let i = 0; i < rawData.length; i++) {
-          let updatedProd = rawData[i];
-          data.push(updatedProd);
-        }
-        setProducts(data);
-        setProdCount(data.length)
-      });
-    });
-  }, [])
   const onSubmit = (payload: { title: string; description: string, price: string }) => {
     const updated: any[] = lodash.clone(products);
     updated.push({
@@ -94,7 +94,7 @@ const ShopApp: FC<{}> = () => {
         <div className={styles.wrapper__stats}>
           <span> {`Total products: ${prodCount} - Number of favorites: ${numFavorites}`}</span>
         </div>
-        {products?.length && <ProductList products={products} onFav={() => favClick} />}
+        {products?.length && <ProductList products={products} onFav={favClick} />}
       </section>
       <Modal
         isOpen={isOpen}
@@ -107,7 +107,7 @@ const ShopApp: FC<{}> = () => {
             onClick={() => { setOpen(false) }}
           ><FaTimes /></div>
           <Form
-            on-submit={() => onSubmit}
+            on-submit={onSubmit}
           />
         </div>
       </Modal>
