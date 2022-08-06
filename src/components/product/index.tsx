@@ -8,7 +8,8 @@ const Product: FC<ProductProps> = ({ product, onFav }) => {
         <>
             <div className={styles.wrapper}>
                 <h3 className={styles.wrapper__title}>{product?.title}</h3>
-                <strong className={styles.wrapper__rating}>{`Total: ${product?.rating?.rate}/5`}</strong>
+                <strong className={styles.wrapper__rating}>{`Rating:`} {product.rating ? `${product.rating.rate}/5` : ''}
+                </strong>
                 <b className={styles.wrapper__price}>{`Price: $${+product?.price}`}</b>
                 <div className={styles.wrapper__body}><b>{`Description:`}</b>{product?.description}</div>
                 <div className={styles['wrapper__action-bar']}>

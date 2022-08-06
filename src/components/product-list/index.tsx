@@ -4,14 +4,11 @@ import Product from 'components/product'
 import { PostsProps } from 'lib/types/common'
 
 const Posts: FC<PostsProps> = ({ onFav, products }) => {
-  let productsarr = []
-  for (const [i, p] of products.entries()) {
-    productsarr.push(
-      <Product key={i} index={i} product={p} onFav={onFav} />
-    );
-  }
+  const productComponent = products?.map((_product: any, _index: number) => {
+    return <Product key={_index} index={_index} product={_product} onFav={onFav} />
+  })
   return (
-    <section>{lodash.reverse(productsarr)}</section>
+    <section>{lodash.reverse(productComponent)}</section>
   )
 }
 export default Posts
